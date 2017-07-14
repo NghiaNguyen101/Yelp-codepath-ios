@@ -14,6 +14,8 @@ import UIKit
 
 class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SwitchCellDelegate {
 
+    @IBOutlet weak var cancelButton: UIBarButtonItem!
+    @IBOutlet weak var searchButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     
     var categories: [[String:String]]!
@@ -31,6 +33,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.delegate = self
         tableView.dataSource = self
         
+        setupNavBar()
         applySwitchStates()
     }
 
@@ -39,20 +42,37 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // Dispose of any resources that can be recreated.
     }
     
+    func setupNavBar() {
+        cancelButton.tintColor = .white
+        searchButton.tintColor = .white
+        searchButton.isEnabled = false
+        
+        navigationController!.navigationBar.isTranslucent = false
+        navigationController!.navigationBar.shadowImage = #imageLiteral(resourceName: "TransparentPixel")
+        // "Pixel" is a solid white 1x1 image.
+        navigationController!.navigationBar.setBackgroundImage(#imageLiteral(resourceName: "red"), for: .default)
+        
+        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.white]
+        navigationController!.navigationBar.titleTextAttributes = (titleDict as! [String : Any])
+    }
+    
     func applySwitchStates() {
         if categoriesCode == nil {
             return
         }
-        
+        var isOn = false
         let count:Int = categories.count
         for code in categoriesCode! {
             for i in 0...count {
                 if code == categories[i]["code"] {
                     switchStates[i] = true
+                    isOn = true
                     break
                 }
             }
         }
+        
+        searchButton.isEnabled = isOn
     }
     
     @IBAction func onCancelButton(_ sender: Any) {
@@ -98,6 +118,15 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         print("Filter for click event")
         switchStates[indexPath.row] = value
+        
+        var isOn = false
+        for (_, on) in switchStates {
+            if on {
+               isOn = true
+                break
+            }
+        }
+        searchButton.isEnabled = isOn
     }
 
     /*
