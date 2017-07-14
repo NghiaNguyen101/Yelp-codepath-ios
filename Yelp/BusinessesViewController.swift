@@ -9,7 +9,7 @@
 import UIKit
 import MBProgressHUD
 
-class BusinessesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FilterViewControllerDelegate, UISearchBarDelegate {
+class BusinessesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIScrollViewDelegate, FilterViewControllerDelegate{
     
     @IBOutlet var searchBarButtonDisplay: UIBarButtonItem!
     @IBOutlet var filterButton: UIBarButtonItem!
@@ -23,6 +23,9 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
     let searchBar = UISearchBar()
     var searchText = "Thai"
     var categories : [String]?
+    let limit = 15
+    var offset = 0
+    var isLoadMoreData = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,6 +88,7 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         extendedNavBarView.addSubview(searchBar)
         searchBar.sizeToFit()
         extendedNavBarView.isHidden = true
+        searchBar.text = searchText
     }
     
     // MARK: - Tableview Datasource
@@ -115,6 +119,7 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
     func filterViewController(filterViewController: FilterViewController, didUpdateFilter filters: [String : AnyObject]) {
         
         categories = filters["categories"] as? [String]
+        offset = 0
         searchItems(q: searchText, categories: categories)
     }
     
@@ -122,11 +127,24 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         hud.mode = MBProgressHUDMode.indeterminate
         hud.label.text = "Loading..."
-        
-        Business.searchWithTerm(term: q, sort: nil, categories: categories, deals: nil) {
+        print("offset: \(offset), limit: \(limit)")
+        Business.searchWithTerm(term: searchText, sort: nil, categories: categories, deals: nil, offset: offset, limit: limit) {
             (businesses: [Business]?, error: Error?) -> Void in
-            self.businesses = businesses
-            self.tableView.reloadData()
+            if (error != nil) {
+                print("Error load data form yelp!")
+            } else if let more = businesses {
+                if self.businesses == nil || self.offset == 0 {
+                    self.businesses = more
+                } else {
+                    self.businesses.append(contentsOf: more)
+                }
+                self.tableView.reloadData()
+                self.offset += self.limit
+            } else {
+                print("Business passed back is nil")
+            }
+            
+            self.isLoadMoreData = false
             MBProgressHUD.hide(for: self.view, animated: true)
         }
     }
@@ -150,6 +168,9 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let q = searchBar.text, q != "" {
+            if searchText != q {
+                offset = 0
+            }
             searchText = q
             searchItems(q: searchText, categories: categories)
         }
@@ -167,6 +188,9 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
     
     @IBAction func searchButtonTap(_ sender: Any) {
         if let q = searchBar.text, q != "" {
+            if searchText != q {
+                offset = 0
+            }
             searchText = q
             searchItems(q: searchText, categories: categories)
         }
@@ -194,5 +218,22 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
             self.extendedNavBarView.isHidden = true
             self.navigationItem.title = self.searchText == "" ? "Yelp" : self.searchText
         })
+    }
+    
+    // MARK: - ScrollView Delegate
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if isLoadMoreData { // already loading
+            return
+        }
+        // load more data
+        // Calculate the position of one screen length before the bottom of the results
+        let scrollViewContentHeight = tableView.contentSize.height
+        let scrollOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
+        
+        // When the user has scrolled past the threshold, start requesting
+        if(scrollView.contentOffset.y > scrollOffsetThreshold && tableView.isDragging) {
+            isLoadMoreData = true
+            searchItems(q: searchText, categories: categories)
+        }
     }
 }
