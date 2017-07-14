@@ -17,6 +17,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var tableView: UITableView!
     
     var categories: [[String:String]]!
+    var categoriesCode : [String]?
     var switchStates =  [Int:Bool]()
     
     weak var delegate: FilterViewControllerDelegate?
@@ -29,11 +30,29 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        applySwitchStates()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func applySwitchStates() {
+        if categoriesCode == nil {
+            return
+        }
+        
+        let count:Int = categories.count
+        for code in categoriesCode! {
+            for i in 0...count {
+                if code == categories[i]["code"] {
+                    switchStates[i] = true
+                    break
+                }
+            }
+        }
     }
     
     @IBAction func onCancelButton(_ sender: Any) {

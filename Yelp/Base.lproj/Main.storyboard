@@ -6,13 +6,14 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Yelp-->
         <scene sceneID="5L9-Uz-lNK">
             <objects>
-                <viewController id="2xI-yr-O5N" customClass="BusinessesViewController" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="2xI-yr-O5N" customClass="BusinessesViewController" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hR0-74-jRp"/>
                         <viewControllerLayoutGuide type="bottom" id="VBY-gq-v8E"/>
@@ -22,7 +23,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="120" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="W6G-Pk-6rl">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="116" width="375" height="551"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BusinessCell" rowHeight="120" id="smR-6p-RH4" customClass="BusinessCell" customModule="Yelp" customModuleProvider="target">
@@ -107,6 +108,7 @@
                                                 <constraint firstItem="0K6-Ji-dgg" firstAttribute="top" secondItem="KRo-wX-vag" secondAttribute="top" constant="8" id="zZd-KH-f7V"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <connections>
                                             <outlet property="addressLabel" destination="eTr-Om-yDo" id="YlZ-lw-pW8"/>
                                             <outlet property="categoriesLabel" destination="zMn-7g-9yC" id="Z8F-o8-cUC"/>
@@ -119,13 +121,26 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UV1-G6-6e0">
+                                <rect key="frame" x="0.0" y="64" width="375" height="44"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="qze-zh-1Xb"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="UV1-G6-6e0" firstAttribute="centerX" secondItem="XhR-oz-92f" secondAttribute="centerX" id="3Cd-2k-efc"/>
+                            <constraint firstItem="W6G-Pk-6rl" firstAttribute="top" secondItem="UV1-G6-6e0" secondAttribute="bottom" constant="8" placeholder="YES" id="6r8-f5-fwn"/>
+                            <constraint firstItem="UV1-G6-6e0" firstAttribute="leading" secondItem="XhR-oz-92f" secondAttribute="leading" id="A1p-GD-uN0"/>
                             <constraint firstItem="W6G-Pk-6rl" firstAttribute="leading" secondItem="XhR-oz-92f" secondAttribute="leading" id="C6C-0n-J1z"/>
-                            <constraint firstItem="W6G-Pk-6rl" firstAttribute="top" secondItem="XhR-oz-92f" secondAttribute="top" id="CcS-SH-9IG"/>
                             <constraint firstItem="VBY-gq-v8E" firstAttribute="top" secondItem="W6G-Pk-6rl" secondAttribute="bottom" id="FsZ-Bp-hkj"/>
+                            <constraint firstItem="UV1-G6-6e0" firstAttribute="top" secondItem="hR0-74-jRp" secondAttribute="bottom" id="LCt-E2-xHK"/>
+                            <constraint firstItem="W6G-Pk-6rl" firstAttribute="top" secondItem="hR0-74-jRp" secondAttribute="bottom" constant="52" id="OQJ-N7-aza"/>
+                            <constraint firstItem="W6G-Pk-6rl" firstAttribute="centerX" secondItem="XhR-oz-92f" secondAttribute="centerX" id="WhU-vd-J3e"/>
                             <constraint firstAttribute="trailing" secondItem="W6G-Pk-6rl" secondAttribute="trailing" id="et9-QV-b6e"/>
+                            <constraint firstAttribute="trailing" secondItem="UV1-G6-6e0" secondAttribute="trailing" id="wDx-G8-3Ht"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Yelp" id="olh-b5-oiB">
@@ -134,9 +149,32 @@
                                 <segue destination="8oq-rE-irr" kind="presentation" id="A1H-Na-FCw"/>
                             </connections>
                         </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Search" id="ifE-PY-0ry">
+                                <connections>
+                                    <action selector="searchButtonTap:" destination="2xI-yr-O5N" id="bNt-dL-6UJ"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Cancel" id="hLe-iW-rWZ">
+                                <connections>
+                                    <action selector="cancelSearchButtonTap:" destination="2xI-yr-O5N" id="nFa-xT-BDm"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="search" id="Ttx-JA-BRD">
+                                <connections>
+                                    <action selector="searchBarButtonDisplayTap:" destination="2xI-yr-O5N" id="IXP-Jm-aL5"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="cancelSearchButton" destination="hLe-iW-rWZ" id="mC4-a8-hnQ"/>
+                        <outlet property="extendedNavBarView" destination="UV1-G6-6e0" id="X7X-4l-NJr"/>
+                        <outlet property="filterButton" destination="nPe-z1-kRv" id="Y8C-dj-Cad"/>
+                        <outlet property="searchBarButtonDisplay" destination="Ttx-JA-BRD" id="KbA-hl-CSp"/>
+                        <outlet property="searchButton" destination="ifE-PY-0ry" id="P5P-BF-PIv"/>
                         <outlet property="tableView" destination="W6G-Pk-6rl" id="Wdf-yW-GVl"/>
+                        <outlet property="topConstraintToView" destination="OQJ-N7-aza" id="ZTU-VT-UGU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fgb-4b-F1b" userLabel="First Responder" sceneMemberID="firstResponder"/>
