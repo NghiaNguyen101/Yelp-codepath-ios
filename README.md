@@ -29,7 +29,7 @@ Please list two areas of the assignment you'd like to **discuss further with you
 1. Create extended view for navBar
 2. Create custom view for dropPin
 3. Add mapViewController as a child in BusinessViewController (a little bit hacky)
-
+4. Can't firgure out auto-resizing view for custom pin
  
 
 ## Video Walkthrough 

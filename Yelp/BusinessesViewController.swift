@@ -164,6 +164,11 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
                 }
                 self.mapViewController.businesses = self.businesses
                 self.tableView.reloadData()
+//                if self.offset == 0 {
+//                    let contentOffset = CGPoint(x: 0, y: 0-self.tableView.contentInset.top)
+//                    self.tableView.setContentOffset(contentOffset, animated: true)
+//
+//                }
                 self.offset += self.limit
             } else {
                 print("Business passed back is nil")
