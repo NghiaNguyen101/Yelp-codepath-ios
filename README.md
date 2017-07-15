@@ -2,7 +2,7 @@
 
 **Yelp** is a Yelp search app using the [Yelp API](http://www.yelp.com/developers/documentation/v2/search_api).
 
-Time spent: **5.5** hours spent in total
+Time spent: **10** hours spent in total
 
 ## User Stories
 
@@ -16,16 +16,20 @@ The following **optional** features are implemented:
 
 - [x] Search results page
 - [x] Infinite scroll for restaurant results.
-- [ ] Implement map view of restaurant results.
+- [x] Implement map view of restaurant results.
 - [ ] Implement the restaurant detail page.
 
 The following **additional** features are implemented:
 
-- [ ] List anything else that you can get done to improve the app functionality!
+- [x] Custom seachBar in extended navBar
+- [x] Implement custom dropPin for restaurants 
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1. Later 
+1. Create extended view for navBar
+2. Create custom view for dropPin
+3. Add mapViewController as a child in BusinessViewController (a little bit hacky)
+
  
 
 ## Video Walkthrough 
