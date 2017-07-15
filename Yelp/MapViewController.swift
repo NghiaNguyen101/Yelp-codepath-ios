@@ -10,15 +10,28 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
+class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate, UISearchBarDelegate {
 
+
+    @IBOutlet weak var extendedNavBarView: UIView!
+    @IBOutlet weak var mapViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var mapView: MKMapView!
     var locationManager : CLLocationManager!
-    var businesses: [Business]!
+    var businesses: [Business]! {
+        didSet {
+            addNotationForBussiness()
+        }
+    }
+    let searchBar = UISearchBar()
+    var parentBusinessViewController: BusinessesViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        parentBusinessViewController = self.parent as! BusinessesViewController
+        mapViewTopConstraint.constant = 0
+        setupSearchBar()
+        
         self.navigationController?.navigationBar.tintColor = .white
         mapView.delegate = self
         
@@ -33,14 +46,21 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.distanceFilter = 200
         locationManager.requestWhenInUseAuthorization()
-        
-        addNotationForBussiness()
+    }
+    
+    func setupSearchBar() {
+        searchBar.delegate = self
+        searchBar.setBackgroundImage(#imageLiteral(resourceName: "red"), for: .any, barMetrics: .default)
+        extendedNavBarView.addSubview(searchBar)
+        searchBar.sizeToFit()
+        extendedNavBarView.isHidden = true
     }
     
     func goToLocation(location: CLLocation) {
-        let span = MKCoordinateSpanMake(0.1, 0.1)
-        let region = MKCoordinateRegionMake(location.coordinate, span)
-        mapView.setRegion(region, animated: false)
+//        let span = MKCoordinateSpanMake(70, 70)
+//        let region = MKCoordinateRegionMake(location.coordinate, span)
+        let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 10000, 10000)
+        mapView.setRegion(mapView.regionThatFits(region), animated: false)
         
     }
     
@@ -52,6 +72,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
         mapView.removeAnnotations(mapView.annotations)
         mapView.addAnnotations(annotations)
+        if annotations.count > 0 {
+            mapView.selectedAnnotations = [annotations.first!]
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -113,6 +136,16 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         
         return annotationView
+    }
+    
+    // MARK: - Search Bar
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+            parentBusinessViewController.searchButton.isEnabled = true
+            parentBusinessViewController.searchBar.text = searchText
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        parentBusinessViewController.searchBarSearchButtonClicked(parentBusinessViewController.searchBar)
     }
     
     /*

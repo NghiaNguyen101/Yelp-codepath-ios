@@ -162,26 +162,26 @@
                                     <segue destination="8oq-rE-irr" kind="presentation" identifier="filterSegue" id="A1H-Na-FCw"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Map" id="6fT-U2-By7">
-                                <connections>
-                                    <segue destination="Kee-dI-ma0" kind="show" id="iza-N4-peG"/>
-                                </connections>
-                            </barButtonItem>
-                        </leftBarButtonItems>
-                        <rightBarButtonItems>
-                            <barButtonItem title="Search" id="ifE-PY-0ry">
-                                <connections>
-                                    <action selector="searchButtonTap:" destination="2xI-yr-O5N" id="bNt-dL-6UJ"/>
-                                </connections>
-                            </barButtonItem>
                             <barButtonItem title="Cancel" id="hLe-iW-rWZ">
                                 <connections>
                                     <action selector="cancelSearchButtonTap:" destination="2xI-yr-O5N" id="nFa-xT-BDm"/>
                                 </connections>
                             </barButtonItem>
+                        </leftBarButtonItems>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Map" id="6fT-U2-By7">
+                                <connections>
+                                    <action selector="mapBarButtonTap:" destination="2xI-yr-O5N" id="WsK-9d-cxd"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem systemItem="search" id="Ttx-JA-BRD">
                                 <connections>
                                     <action selector="searchBarButtonDisplayTap:" destination="2xI-yr-O5N" id="IXP-Jm-aL5"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Search" id="ifE-PY-0ry">
+                                <connections>
+                                    <action selector="searchButtonTap:" destination="2xI-yr-O5N" id="bNt-dL-6UJ"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -310,25 +310,38 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mLc-L4-3nT">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="108" width="375" height="559"/>
                             </mapView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H8J-V5-0gd">
+                                <rect key="frame" x="0.0" y="64" width="375" height="44"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="MSD-vk-Hlj"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="H8J-V5-0gd" secondAttribute="trailing" id="1DV-GE-bd6"/>
+                            <constraint firstItem="H8J-V5-0gd" firstAttribute="leading" secondItem="408-69-YJS" secondAttribute="leading" id="KAN-S3-9YX"/>
                             <constraint firstItem="Ob9-aE-hQU" firstAttribute="top" secondItem="mLc-L4-3nT" secondAttribute="bottom" id="Lca-eW-cAg"/>
-                            <constraint firstItem="mLc-L4-3nT" firstAttribute="top" secondItem="408-69-YJS" secondAttribute="top" id="XxE-yH-gLH"/>
                             <constraint firstAttribute="trailing" secondItem="mLc-L4-3nT" secondAttribute="trailing" id="YGE-4B-vSf"/>
+                            <constraint firstItem="H8J-V5-0gd" firstAttribute="top" secondItem="lId-Fm-ZFx" secondAttribute="bottom" id="b2e-nf-Giq"/>
+                            <constraint firstItem="mLc-L4-3nT" firstAttribute="top" secondItem="lId-Fm-ZFx" secondAttribute="bottom" constant="44" id="lnc-Ns-t5s"/>
                             <constraint firstItem="mLc-L4-3nT" firstAttribute="leading" secondItem="408-69-YJS" secondAttribute="leading" id="raJ-UN-BdS"/>
+                            <constraint firstItem="mLc-L4-3nT" firstAttribute="top" secondItem="H8J-V5-0gd" secondAttribute="bottom" placeholder="YES" id="vwe-ne-9MK"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="yl0-VK-H4O"/>
                     <connections>
+                        <outlet property="extendedNavBarView" destination="H8J-V5-0gd" id="kNI-Fs-jXc"/>
                         <outlet property="mapView" destination="mLc-L4-3nT" id="6Lh-me-hPm"/>
+                        <outlet property="mapViewTopConstraint" destination="lnc-Ns-t5s" id="EwK-FS-DuC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hsA-tR-aIg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4288.8000000000002" y="-402.54872563718146"/>
+            <point key="canvasLocation" x="6167.1999999999998" y="-402.54872563718146"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="dJo-HK-Tgw">
@@ -347,6 +360,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vST-YQ-6Pr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3450.4000000000001" y="357.57121439280365"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Mnp-i7-HhI">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1rJ-pG-iBf" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="MWo-sm-222">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Kee-dI-ma0" kind="relationship" relationship="rootViewController" id="9jr-tZ-1Hu"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tbx-8I-dqQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5228" y="-402.54872563718146"/>
         </scene>
     </scenes>
 </document>

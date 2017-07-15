@@ -25,7 +25,7 @@ class BusinessMapView: UIView {
     var business: Business! {
         didSet {
             nameLabel.text = business.name!
-            if let url = business.imageURL {
+            if let url = business.ratingImageURL {
                 ratingImageView.setImageWith(url)
             } else {
                 ratingImageView.image = #imageLiteral(resourceName: "Pixel")
@@ -33,9 +33,15 @@ class BusinessMapView: UIView {
             reviewLabel.text = "\(business.reviewCount!) reviews"
             moneyLabel.text = "$$"
             isCloseLabel.text = business.isClose! ? "Close" : "Open"
+            categoriesLabel.text = business.categories!
         }
     }
     
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.layer.cornerRadius = 8
+    }
     
     /*
     // Only override draw() if you perform custom drawing.

@@ -20,7 +20,7 @@ class Business: NSObject {
     let ratingImageURL: URL?
     let reviewCount: NSNumber?
     let ll: [String: Double]?
-    let isClose: Bool?
+    let isClose: Bool? // permanent close or not, can't get wroking hours
     
     init(dictionary: NSDictionary) {
         name = dictionary["name"] as? String
@@ -77,9 +77,10 @@ class Business: NSObject {
             categories = nil
         }
         
-        if let isClose = dictionary["isClose"] as? Bool {
+        if let isClose = dictionary["is_closed"] as? Bool {
             self.isClose = isClose
         } else {
+            print("I was never inside")
             self.isClose = true
         }
         
@@ -102,7 +103,7 @@ class Business: NSObject {
     }
     
     func toString() -> String {
-        return "name: \(name!)\naddress: \(address!)\nfullAddress: \(fullAddress!)\nll: \(ll!)"
+        return "name: \(name!)\naddress: \(address!)\nfullAddress: \(fullAddress!)\nll: \(ll!)\nisClose: \(isClose!)"
     }
     
     func getLocation() -> CLLocationCoordinate2D {

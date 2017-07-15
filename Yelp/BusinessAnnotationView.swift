@@ -16,7 +16,7 @@ class BussinessAnnotationView: MKAnnotationView {
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         self.canShowCallout = false
-        self.image = #imageLiteral(resourceName: "mapPin")
+        self.image = #imageLiteral(resourceName: "dropPin")
 
     }
     
@@ -27,7 +27,7 @@ class BussinessAnnotationView: MKAnnotationView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.canShowCallout = false // This is important: Don't show default callout
-        self.image = #imageLiteral(resourceName: "mapPin")
+        self.image = #imageLiteral(resourceName: "dropPin")
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -49,13 +49,12 @@ class BussinessAnnotationView: MKAnnotationView {
                 if animated {
                     self.businessMapView!.alpha = 0.0
                     UIView.animate(withDuration: 0.3, animations: {
-                        self.businessMapView!.alpha = 1.0
+                        self.businessMapView!.alpha = 0.85
                     })
                 }
             }
         }
         else {
-            print("cant load map")
             if businessMapView != nil {
                 if animated {
                     UIView.animate(withDuration: 0.3, animations: {
@@ -75,7 +74,9 @@ class BussinessAnnotationView: MKAnnotationView {
             if let businessAnnotation = annotation as? BusinessAnnotation {
                 businessMapView.business = businessAnnotation.business
             }
+            return businessMapView
         }
+    
         print("wtf")
         return nil
     }
