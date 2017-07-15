@@ -1,8 +1,8 @@
-# Project 3 - *Name of App Here*
+# Project 3 - *Yelp-Immitator*
 
 **Yelp** is a Yelp search app using the [Yelp API](http://www.yelp.com/developers/documentation/v2/search_api).
 
-Time spent: **10** hours spent in total
+Time spent: **11** hours spent in total
 
 ## User Stories
 
@@ -36,13 +36,17 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories: (Later)
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/NghiaNguyen101/Yelp-codepath-ios/blob/master/walkthrough-yelp.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
 Describe any challenges encountered while building the app.
+
+1. Custom view for dropPin
+2. Auto resizing view, label with auto-layout
+3. Extended navBar
 
 ## License
 
