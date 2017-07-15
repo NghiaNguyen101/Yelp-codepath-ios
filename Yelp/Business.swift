@@ -3,19 +3,24 @@
 //  Yelp
 //
 //  Created by Timothy Lee on 4/23/15.
-//  Copyright (c) 2015 Timothy Lee. All rights reserved.
+//  Modified by Nghia Nguyen on 07/14/17
+//  Copyright (c) 2017 Timothy Lee, Nghia Nguyen. All rights reserved.
 //
 
 import UIKit
+import MapKit
 
 class Business: NSObject {
     let name: String?
     let address: String?
+    let fullAddress: String?
     let imageURL: URL?
     let categories: String?
     let distance: String?
     let ratingImageURL: URL?
     let reviewCount: NSNumber?
+    let ll: [String: Double]?
+    let isClose: Bool?
     
     init(dictionary: NSDictionary) {
         name = dictionary["name"] as? String
@@ -29,10 +34,23 @@ class Business: NSObject {
         
         let location = dictionary["location"] as? NSDictionary
         var address = ""
+        var ll : [String:Double] = [:]
+        var fullAddress = ""
         if location != nil {
             let addressArray = location!["address"] as? NSArray
             if addressArray != nil && addressArray!.count > 0 {
                 address = addressArray![0] as! String
+            }
+            
+            let coordinate = location!["coordinate"] as? NSDictionary
+            if coordinate != nil {
+                ll["latitude"] = (coordinate!["latitude"] as! Double)
+                ll["longitude"] = (coordinate!["longitude"] as! Double)
+            }
+            
+            let displayAddress = location!["display_address"] as? NSArray
+            if displayAddress != nil {
+                fullAddress = (displayAddress?.componentsJoined(by: ", "))!
             }
             
             let neighborhoods = location!["neighborhoods"] as? NSArray
@@ -44,6 +62,8 @@ class Business: NSObject {
             }
         }
         self.address = address
+        self.ll = ll
+        self.fullAddress = fullAddress
         
         let categoriesArray = dictionary["categories"] as? [[String]]
         if categoriesArray != nil {
@@ -55,6 +75,12 @@ class Business: NSObject {
             categories = categoryNames.joined(separator: ", ")
         } else {
             categories = nil
+        }
+        
+        if let isClose = dictionary["isClose"] as? Bool {
+            self.isClose = isClose
+        } else {
+            self.isClose = true
         }
         
         let distanceMeters = dictionary["distance"] as? NSNumber
@@ -73,6 +99,14 @@ class Business: NSObject {
         }
         
         reviewCount = dictionary["review_count"] as? NSNumber
+    }
+    
+    func toString() -> String {
+        return "name: \(name!)\naddress: \(address!)\nfullAddress: \(fullAddress!)\nll: \(ll!)"
+    }
+    
+    func getLocation() -> CLLocationCoordinate2D {
+        return CLLocationCoordinate2DMake(ll!["latitude"]!, ll!["longitude"]!)
     }
     
     class func businesses(array: [NSDictionary]) -> [Business] {

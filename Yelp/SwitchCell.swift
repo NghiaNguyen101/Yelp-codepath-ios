@@ -3,7 +3,7 @@
 //  Yelp
 //
 //  Created by Nghia Nguyen on 7/13/17.
-//  Copyright © 2017 Timothy Lee. All rights reserved.
+//  Copyright (c) 2017 Timothy Lee, Nghia Nguyen. All rights reserved.
 //
 
 import UIKit

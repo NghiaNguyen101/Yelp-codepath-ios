@@ -3,7 +3,7 @@
 //  Yelp
 //
 //  Created by Nghia Nguyen on 7/13/17.
-//  Copyright © 2017 Timothy Lee. All rights reserved.
+//  Copyright (c) 2017 Timothy Lee, Nghia Nguyen. All rights reserved.
 //
 
 import UIKit
@@ -12,6 +12,7 @@ class BusinessCell: UITableViewCell {
     
     static let identifier = "BusinessCell"
     
+    @IBOutlet weak var isCloseLabel: UILabel!
     @IBOutlet weak var thumbImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var ratingImageView: UIImageView!
@@ -33,6 +34,7 @@ class BusinessCell: UITableViewCell {
             addressLabel.text = business.address
             categoriesLabel.text = business.categories
             distanceLabel.text = business.distance
+            isCloseLabel.text = business.isClose! ? "Close" : "Open"
         }
     }
 

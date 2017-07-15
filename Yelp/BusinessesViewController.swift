@@ -3,7 +3,8 @@
 //  Yelp
 //
 //  Created by Timothy Lee on 4/23/15.
-//  Copyright (c) 2015 Timothy Lee. All rights reserved.
+//  Modified by Nghia Nguyen on 07/14/17
+//  Copyright (c) 2017 Timothy Lee, Nghia Nguyen. All rights reserved.
 //
 
 import UIKit
@@ -11,6 +12,7 @@ import MBProgressHUD
 
 class BusinessesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIScrollViewDelegate, FilterViewControllerDelegate{
     
+    @IBOutlet weak var mapBarButton: UIBarButtonItem!
     @IBOutlet var searchBarButtonDisplay: UIBarButtonItem!
     @IBOutlet var filterButton: UIBarButtonItem!
     @IBOutlet var cancelSearchButton: UIBarButtonItem!
@@ -69,6 +71,7 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         filterButton.tintColor = .white
         cancelSearchButton.tintColor = .white
         searchBarButtonDisplay.tintColor = .white
+        mapBarButton.tintColor = .white
         
         navigationItem.rightBarButtonItems = [searchBarButtonDisplay]
         
@@ -76,6 +79,7 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         navigationController!.navigationBar.shadowImage = #imageLiteral(resourceName: "TransparentPixel")
         // "Pixel" is a solid white 1x1 image.
         navigationController!.navigationBar.setBackgroundImage(#imageLiteral(resourceName: "red"), for: .default)
+        
         
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.white]
         navigationController!.navigationBar.titleTextAttributes = (titleDict as! [String : Any])
@@ -109,6 +113,11 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier != "filterSegue" {
+            let vc = segue.destination as! MapViewController
+            vc.businesses = self.businesses
+            return
+        }
         let navigationController = segue.destination as! UINavigationController
         let filterViewController = navigationController.topViewController as! FilterViewController
         
@@ -133,6 +142,7 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
             if (error != nil) {
                 print("Error load data form yelp!")
             } else if let more = businesses {
+                print(more.first?.toString() ?? "empty more")
                 if self.businesses == nil || self.offset == 0 {
                     self.businesses = more
                 } else {
